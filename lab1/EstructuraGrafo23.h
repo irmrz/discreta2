@@ -5,6 +5,9 @@
 #include <stdint.h>
 #include <assert.h>
 
+/* (2 ** 32) - 1*/
+#define ERROR 4294967295
+
 /* Definición de u32*/
 typedef unsigned int u32;
 
@@ -15,7 +18,7 @@ struct Vertice_s {
     u32 nombre;
     u32 index;
     u32 grado;
-    u32 *vecinos;
+    u32 *vecinos; /* Equivalente a lista de índices de los vecinos*/
 };
 
 /* Grafo */
