@@ -2,10 +2,8 @@
 #include "EstructuraGrafo23.h"
 
 
-struct Grafost{
-    
-    char* name;
-    int* neigbours;
-    
-
-};
+u32 NumeroDeVertices(Grafo G) {
+    assert(G != NULL);
+}
+u32 NumeroDeLados(Grafo G);
+u32 Delta(Grafo G);
