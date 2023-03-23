@@ -19,10 +19,10 @@ struct Vertice_s {
 };
 
 /* Grafo */
-struct Grafost{
+struct GrafoSt{
    u32 n_vertices; 
    u32 m_lados;
    u32 delta;
-   vertice *lista_vert;
+   struct Vertice_s *lista_vert;
 };
 #endif
