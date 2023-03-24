@@ -2,6 +2,60 @@
 #include "EstructuraGrafo23.h"
 
 
+
+static vertice make_vert(){
+
+    //dar memoria para la estructura
+
+    //asignarle un nombre, indice, y a grado asignarle 0 hasta que se agrege un vecino 
+
+    //pedir memoria para el arreglo de vecinos
+}
+
+// g el grafo que tiene los dos grafos, el indice de los dos vertices para agregarlo al indice de neigbours
+
+static void add_neighbour(Grafo g, u32 i, u32 j){   
+
+    // reviso el tamaño del arrey de vertices del vertice i, si tiene espacio agrego j al 
+    // arreglo de vecinos si no pido mas memoria antes de hacerlo. incremeto el grado de i
+
+    //sugerencia agregar un campo de capacity para saber cuantos elementos puede soportar el array
+
+    //hacer lo mismo con j
+
+}
+
+
+static void destruir_vertice(){
+
+}
+
+
+Grafo ConstruirGrafo(){
+
+    //leer los datos del archivo
+
+    //pedir memoria para la estructura del grafo y la lista de vertices, en este momento ya sabremos
+    // el numero de vertices y de lados
+
+    //ordenar los datos y asignar un indice al vertices 
+
+    //crear los vertices y agregar los vecinos segun corresponda
+
+    // hacer un maximo para encontrar el vertice que tenga el mayor numero de vecinos y asignarlo al delta
+
+
+}
+
+
+void DestruirGrafo(Grafo G){
+
+    //
+
+
+}
+
+
 u32 NumeroDeVertices(Grafo G) {
     assert(G != NULL);
     return G->n_vertices;
