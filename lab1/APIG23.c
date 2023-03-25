@@ -68,23 +68,27 @@ Grafo ConstruirGrafo(){
     scanf(" edge %u %u", &g->n_vertices, &g->m_lados); 
     printf("n: %u m: %u\n",g->n_vertices,g->m_lados);
     
-    temp_cont = malloc(2*g->m_lados*sizeof(u32));
-    int res;
+    temp_cont = malloc(g->m_lados*sizeof(u32));
+    u32 *temp_cont_2 = malloc(g->m_lados*sizeof(u32));
 
-    for (u32 i = 0; i < 2*g->m_lados; i+=2){
-        
-        res =scanf("e %u %u",temp_cont[i],temp_cont[i+1]);
-        
-        if(res != 2){
-            printf("error at reading\n");
+    int res;
+    
+    char queimprime2[100];
+    scanf("%c\n",&queimprime[0]);
+    //printf("%c",queimprime[0]);
+    for (u32 i = 0; i < g->m_lados; i++)
+    {
+        res = scanf("%c %u %u\n", &queimprime2[0], &temp_cont[i], &temp_cont_2[i]);
+        if (res > 3)
+        {
+            printf("Error in format\n");
             exit(EXIT_FAILURE);
         }
-        printf("%u %u \n",temp_cont[i],temp_cont[i+1]);
-
-
-    }
         
-    printf("end of for \n");
+        printf("scanf: %c %u %u\n",queimprime2[0], temp_cont[i], temp_cont_2[i]);
+    }
+    
+    printf("temp %u %u\n",temp_cont[g->m_lados-1], temp_cont_2[g->m_lados-1]);    
     free(temp_cont);
 
     return g;
