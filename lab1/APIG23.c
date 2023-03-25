@@ -9,8 +9,6 @@ static struct Vertice_s make_vert(u32 index, u32 name){
     aux_vert.index = index;
     aux_vert.nombre = name;
     aux_vert.grado = 0;
-
-    /* No hay vertices no conexos -> van a tener al menos 1 vecino*/
     aux_vert.capacity = 0;
 
     aux_vert.vecinos = NULL;
@@ -20,16 +18,9 @@ static struct Vertice_s make_vert(u32 index, u32 name){
 }
 
 
-// g el grafo que tiene los dos grafos, el indice de los dos vertices para agregarlo al indice de neigbours
+// g el grafo que tiene los dos vertices, el indice de los dos vertices para agregarlo al indice de neigbours
 
 static void add_neighbour(Grafo g, u32 vertice_index, u32 vecino_index){   
-
-    // reviso el tamaño del arrey de vertices del vertice i, si tiene espacio agrego j al 
-    // arreglo de vecinos si no pido mas memoria antes de hacerlo. incremeto el grado de i
-
-    //sugerencia agregar un campo de capacity para saber cuantos elementos puede soportar el array
-
-    //hacer lo mismo con j
     
     assert(g != NULL);
     assert(vertice_index < g->n_vertices);
@@ -62,6 +53,7 @@ static int compare(const void *_a, const void *_b) {
         
         return (*a - *b);
 }
+
 
 Grafo ConstruirGrafo(){
 
@@ -123,15 +115,23 @@ Grafo ConstruirGrafo(){
         vertex_array[i] = temp_cont[i].a;
         vertex_array[i + g->m_lados] = temp_cont[i].b;
 
-        //printf("scanf: %u %u - i: %u\n",temp_cont[i].a, temp_cont[i].b, i);
+        printf("scanf: %u %u - i: %u\n",temp_cont[i].a, temp_cont[i].b, i);
     }
+
+
+    for(u32 i = 0; i < g->m_lados; i++){
+
+        printf("%u %u \n",temp_cont[i].a,temp_cont[i].b);
+
+    }
+    printf("\n");
 
     qsort(vertex_array, g->m_lados * 2, sizeof(u32),&compare);
     
     u32 count = 0;
     u32 aux_ind = 0;
 
-    for (u32 i = 0; i < 2*g->m_lados; i++){
+    for(u32 i = 0; i < 2*g->m_lados; i++){
         
         if (aux_ind != vertex_array[i]){
             aux_ind = vertex_array[i];
@@ -144,7 +144,16 @@ Grafo ConstruirGrafo(){
         }
         
     }
+
+   /*for(u32 i = 0; i < g->m_lados; i++){
+
+        printf("%u %u \n",temp_cont[i].a,temp_cont[i].b);
+
+    }*/
     
+
+
+
     //printf("problemas de free:\n");
     //free(vertex_array);
 
