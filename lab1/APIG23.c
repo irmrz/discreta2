@@ -10,18 +10,19 @@ static struct Vertice_s make_vert(u32 index, u32 name){
     aux_vert.nombre = name;
     aux_vert.grado = 0;
 
-    aux_vert.capacity = 2;
+    /* No hay vertices no conexos -> van a tener al menos 1 vecino*/
+    aux_vert.capacity = 0;
 
-    aux_vert.vecinos = malloc(aux_vert.capacity*sizeof(u32));
+    aux_vert.vecinos = NULL;
 
-    printf("vertice creado name: %u index: %u\n",aux_vert.nombre,aux_vert.index);
+    //printf("vertice creado name: %u index: %u\n",aux_vert.nombre,aux_vert.index);
     return aux_vert;
 }
 
-/*
+
 // g el grafo que tiene los dos grafos, el indice de los dos vertices para agregarlo al indice de neigbours
 
-static void add_neighbour(Grafo g, u32 i, u32 j){   
+static void add_neighbour(Grafo g, u32 vertice_index, u32 vecino_index){   
 
     // reviso el tamaño del arrey de vertices del vertice i, si tiene espacio agrego j al 
     // arreglo de vecinos si no pido mas memoria antes de hacerlo. incremeto el grado de i
@@ -29,14 +30,28 @@ static void add_neighbour(Grafo g, u32 i, u32 j){
     //sugerencia agregar un campo de capacity para saber cuantos elementos puede soportar el array
 
     //hacer lo mismo con j
+    
+    assert(g != NULL);
+    assert(vertice_index < g->n_vertices);
 
+    u32 grado = g->lista_vert[vertice_index].grado; // Numero de vecinos que tiene el vertice "vertice_index"
+    u32 capacity = g->lista_vert[vertice_index].capacity;
+
+    if (capacity == grado)
+    {
+        u32 new_capacity = capacity == 0 ? 1 : 2 * capacity;
+        g->lista_vert[vertice_index].vecinos =realloc(g->lista_vert[vertice_index].vecinos, new_capacity * sizeof(u32));
+        g->lista_vert[vertice_index].capacity = new_capacity;
+    }
+    g->lista_vert[vertice_index].vecinos[grado] = vecino_index;
+    g->lista_vert[vertice_index].grado++;
 }
 
 
-static void destruir_vertice(){
-
+static void destruir_vertice(vertice v){
+    v = v;
 }
-*/
+
 
 static int compare(const void *_a, const void *_b) {
  
@@ -113,7 +128,9 @@ Grafo ConstruirGrafo(){
 
     qsort(vertex_array, g->m_lados * 2, sizeof(u32),&compare);
     
-    u32 count,aux_ind = 0;
+    u32 count = 0;
+    u32 aux_ind = 0;
+
     for (u32 i = 0; i < 2*g->m_lados; i++){
         
         if (aux_ind != vertex_array[i]){
