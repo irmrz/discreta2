@@ -2,7 +2,7 @@
 #include "EstructuraGrafo23.h"
 
 
-
+/*
 static vertice make_vert(){
 
     //dar memoria para la estructura
@@ -29,7 +29,7 @@ static void add_neighbour(Grafo g, u32 i, u32 j){
 static void destruir_vertice(){
 
 }
-
+*/
 
 Grafo ConstruirGrafo(){
 
@@ -43,15 +43,33 @@ Grafo ConstruirGrafo(){
     //crear los vertices y agregar los vecinos segun corresponda
 
     // hacer un maximo para encontrar el vertice que tenga el mayor numero de vecinos y asignarlo al delta
+    Grafo g = NULL;
+    g = malloc(sizeof(struct GrafoSt));
+    
+    /* Leer n y m */
+    int bool = 0;
+    char queimprime[100];
+    while ((fgets(queimprime, sizeof(queimprime), stdin) != NULL) && !bool)
+    {
+        if (queimprime[0] == 'c') continue;
+        if (queimprime[0] == 'e') {
+            bool = 1;
+            scanf("e %u %u", &g->n_vertices, &g->m_lados);
+        }
+    }
+    printf("n: %u m: %u\n",g->n_vertices,g->m_lados);
+    
+    
+    //printf("n: %u m: %u\n",g->n_vertices,g->m_lados);
 
-
+    return g;
 }
 
 
 void DestruirGrafo(Grafo G){
 
     //
-
+    G = G;
 
 }
 
