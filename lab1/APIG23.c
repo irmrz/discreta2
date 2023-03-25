@@ -2,16 +2,23 @@
 #include "EstructuraGrafo23.h"
 
 
-/*
-static vertice make_vert(){
+static struct Vertice_s make_vert(u32 index, u32 name){
 
-    //dar memoria para la estructura
+    struct Vertice_s aux_vert;
 
-    //asignarle un nombre, indice, y a grado asignarle 0 hasta que se agrege un vecino 
+    aux_vert.index = index;
+    aux_vert.nombre = name;
+    aux_vert.grado = 0;
 
-    //pedir memoria para el arreglo de vecinos
+    aux_vert.capacity = 2;
+
+    aux_vert.vecinos = malloc(aux_vert.capacity*sizeof(u32));
+
+    printf("vertice creado name: %u index: %u\n",aux_vert.nombre,aux_vert.index);
+    return aux_vert;
 }
 
+/*
 // g el grafo que tiene los dos grafos, el indice de los dos vertices para agregarlo al indice de neigbours
 
 static void add_neighbour(Grafo g, u32 i, u32 j){   
@@ -105,13 +112,24 @@ Grafo ConstruirGrafo(){
     }
 
     qsort(vertex_array, g->m_lados * 2, sizeof(u32),&compare);
-    for (u32 i = 0; i < 2*g->m_lados; i++)
-    {
-        printf("%u\n", vertex_array[i]);
+    
+    u32 count,aux_ind = 0;
+    for (u32 i = 0; i < 2*g->m_lados; i++){
+        
+        if (aux_ind != vertex_array[i]){
+            aux_ind = vertex_array[i];
+            g->lista_vert[count] = make_vert(count, aux_ind);
+            count++;
+        }
+        
+        if (count == g->n_vertices){
+            break;
+        }
+        
     }
     
-    printf("problemas de free:\n");
-    free(vertex_array);
+    //printf("problemas de free:\n");
+    //free(vertex_array);
 
     return g;
 }

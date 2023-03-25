@@ -19,6 +19,7 @@ struct Vertice_s {
     u32 nombre;
     u32 index;
     u32 grado;
+    u32 capacity;
     u32 *vecinos; /* Equivalente a lista de índices de los vecinos*/
 };
 
