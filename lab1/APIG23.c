@@ -45,7 +45,9 @@ Grafo ConstruirGrafo(){
     // hacer un maximo para encontrar el vertice que tenga el mayor numero de vecinos y asignarlo al delta
     Grafo g = NULL;
     g = malloc(sizeof(struct GrafoSt));
-    
+    u32 * temp_cont = NULL;
+
+
     /* Leer n y m */
     int bool = 0;
     char queimprime[1];
@@ -54,7 +56,6 @@ Grafo ConstruirGrafo(){
         scanf(" %c",queimprime);
 
         if (queimprime[0] == 'c'){
-            printf("%c \n",queimprime[0]);
             do {
                 scanf("%c",queimprime);
             } while (queimprime[0] != '\n');
@@ -67,8 +68,24 @@ Grafo ConstruirGrafo(){
     scanf(" edge %u %u", &g->n_vertices, &g->m_lados); 
     printf("n: %u m: %u\n",g->n_vertices,g->m_lados);
     
-    
-    //printf("n: %u m: %u\n",g->n_vertices,g->m_lados);
+    temp_cont = malloc(2*g->m_lados*sizeof(u32));
+    int res;
+
+    for (u32 i = 0; i < 2*g->m_lados; i+=2){
+        
+        res =scanf("e %u %u",temp_cont[i],temp_cont[i+1]);
+        
+        if(res != 2){
+            printf("error at reading\n");
+            exit(EXIT_FAILURE);
+        }
+        printf("%u %u \n",temp_cont[i],temp_cont[i+1]);
+
+
+    }
+        
+    printf("end of for \n");
+    free(temp_cont);
 
     return g;
 }
