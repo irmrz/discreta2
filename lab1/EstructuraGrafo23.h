@@ -28,4 +28,10 @@ struct GrafoSt{
    u32 delta;
    struct Vertice_s *lista_vert;
 };
+
+typedef struct Lado_s
+    {
+        u32 i;
+        u32 j;
+    }Lado;
 #endif

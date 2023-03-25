@@ -45,7 +45,7 @@ Grafo ConstruirGrafo(){
     // hacer un maximo para encontrar el vertice que tenga el mayor numero de vecinos y asignarlo al delta
     Grafo g = NULL;
     g = malloc(sizeof(struct GrafoSt));
-    u32 * temp_cont = NULL;
+    Lado * temp_cont = NULL;
 
 
     /* Leer n y m */
@@ -64,25 +64,29 @@ Grafo ConstruirGrafo(){
         }
          
     }
-    /* No se agrega la 'p' ya que es consumida por el ciclo de arriba para saber a partir de que linea se consiguen los datos*/
-    scanf(" edge %u %u", &g->n_vertices, &g->m_lados); 
+    /* 
+    No se agrega la 'p' ya que es consumida por el ciclo de arriba para saber a partir de que linea se consiguen los datos
+    Tambien lee salto de linea ¡OJO AL PIOJO!
+    */
+    scanf(" edge %u %u\n", &g->n_vertices, &g->m_lados); 
     printf("n: %u m: %u\n",g->n_vertices,g->m_lados);
     
-    temp_cont = malloc(g->m_lados*sizeof(u32));
-    u32 *temp_cont_2 = malloc(g->m_lados*sizeof(u32));
 
+    g->lista_vert = malloc(g->n_vertices * sizeof(struct Vertice_s));
     int res;
+
     
-    scanf("%c\n",&queimprime[0]);
+    
+    temp_cont = malloc(g->m_lados * sizeof(struct Lado_s));
     for (u32 i = 0; i < g->m_lados; i++)
     {
-        res = scanf("e %u %u\n", &temp_cont[i], &temp_cont_2[i]);
+        res = scanf("e %u %u\n", &temp_cont[i].i, &temp_cont[i].j);
         if (res != 2)
         {
             printf("Error in format\n");
             exit(EXIT_FAILURE);
         }
-        printf("scanf: %u %u\n",temp_cont[i], temp_cont_2[i]);
+        printf("scanf: %u %u\n",temp_cont[i].i, temp_cont[i].j);
     }
     
     free(temp_cont);
