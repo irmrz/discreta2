@@ -4,6 +4,7 @@
 #include "APIG23.h"
 #include <stdint.h>
 #include <assert.h>
+#include <stdlib.h>
 
 /* (2 ** 32) - 1*/
 #define ERROR 4294967295
@@ -31,7 +32,8 @@ struct GrafoSt{
 
 typedef struct Lado_s
     {
-        u32 i;
-        u32 j;
+        u32 a;
+        u32 b;
     }Lado;
+
 #endif

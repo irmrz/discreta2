@@ -31,6 +31,16 @@ static void destruir_vertice(){
 }
 */
 
+static int compare(const void *_a, const void *_b) {
+ 
+        u32 *a, *b;
+        
+        a = (u32 *) _a;
+        b = (u32 *) _b;
+        
+        return (*a - *b);
+}
+
 Grafo ConstruirGrafo(){
 
     //leer los datos del archivo
@@ -76,20 +86,32 @@ Grafo ConstruirGrafo(){
     int res;
 
     
+    u32 *vertex_array = malloc(2 * g->m_lados);
     
     temp_cont = malloc(g->m_lados * sizeof(struct Lado_s));
+    
     for (u32 i = 0; i < g->m_lados; i++)
     {
-        res = scanf("e %u %u\n", &temp_cont[i].i, &temp_cont[i].j);
+        res = scanf("e %u %u\n", &temp_cont[i].a, &temp_cont[i].b);
         if (res != 2)
         {
             printf("Error in format\n");
             exit(EXIT_FAILURE);
         }
-        printf("scanf: %u %u\n",temp_cont[i].i, temp_cont[i].j);
+        vertex_array[i] = temp_cont[i].a;
+        vertex_array[i + g->m_lados] = temp_cont[i].b;
+
+        //printf("scanf: %u %u - i: %u\n",temp_cont[i].a, temp_cont[i].b, i);
+    }
+
+    qsort(vertex_array, g->m_lados * 2, sizeof(u32),&compare);
+    for (u32 i = 0; i < 2*g->m_lados; i++)
+    {
+        printf("%u\n", vertex_array[i]);
     }
     
-    free(temp_cont);
+    printf("problemas de free:\n");
+    free(vertex_array);
 
     return g;
 }
