@@ -48,15 +48,24 @@ Grafo ConstruirGrafo(){
     
     /* Leer n y m */
     int bool = 0;
-    char queimprime[100];
-    while ((fgets(queimprime, sizeof(queimprime), stdin) != NULL) && !bool)
+    char queimprime[1];
+    while (!bool)
     {
-        if (queimprime[0] == 'c') continue;
-        if (queimprime[0] == 'e') {
-            bool = 1;
-            scanf("e %u %u", &g->n_vertices, &g->m_lados);
+        scanf(" %c",queimprime);
+
+        if (queimprime[0] == 'c'){
+            printf("%c \n",queimprime[0]);
+            do {
+                scanf("%c",queimprime);
+            } while (queimprime[0] != '\n');
+            continue;
+        }else{
+            bool =1;
         }
+        
     }
+
+    scanf("p edge %u %u", &g->n_vertices, &g->m_lados);
     printf("n: %u m: %u\n",g->n_vertices,g->m_lados);
     
     
