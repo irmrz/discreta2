@@ -58,14 +58,13 @@ Grafo ConstruirGrafo(){
             do {
                 scanf("%c",queimprime);
             } while (queimprime[0] != '\n');
-            continue;
         }else{
-            bool =1;
+            bool = 1;
         }
-        
+         
     }
-
-    scanf("p edge %u %u", &g->n_vertices, &g->m_lados);
+    /* No se agrega la 'p' ya que es consumida por el ciclo de arriba para saber a partir de que linea se consiguen los datos*/
+    scanf(" edge %u %u", &g->n_vertices, &g->m_lados); 
     printf("n: %u m: %u\n",g->n_vertices,g->m_lados);
     
     
