@@ -73,22 +73,18 @@ Grafo ConstruirGrafo(){
 
     int res;
     
-    char queimprime2[100];
     scanf("%c\n",&queimprime[0]);
-    //printf("%c",queimprime[0]);
     for (u32 i = 0; i < g->m_lados; i++)
     {
-        res = scanf("%c %u %u\n", &queimprime2[0], &temp_cont[i], &temp_cont_2[i]);
-        if (res > 3)
+        res = scanf("e %u %u\n", &temp_cont[i], &temp_cont_2[i]);
+        if (res != 2)
         {
             printf("Error in format\n");
             exit(EXIT_FAILURE);
         }
-        
-        printf("scanf: %c %u %u\n",queimprime2[0], temp_cont[i], temp_cont_2[i]);
+        printf("scanf: %u %u\n",temp_cont[i], temp_cont_2[i]);
     }
     
-    printf("temp %u %u\n",temp_cont[g->m_lados-1], temp_cont_2[g->m_lados-1]);    
     free(temp_cont);
 
     return g;
