@@ -43,6 +43,21 @@ static void destruir_vertice(vertice v){
     v = v;
 }
 
+static int compare_Lado(const void *_a, const void *_b){
+    Lado *a, *b;
+        
+        a = (Lado *) _a;
+        b = (Lado *) _b;
+
+        int result= a->a - b->a;
+
+
+        if (result == 0){
+            result = a->b - b->b;
+        }
+
+        return result;
+}
 
 static int compare(const void *_a, const void *_b) {
  
@@ -70,6 +85,8 @@ Grafo ConstruirGrafo(){
     Grafo g = NULL;
     g = malloc(sizeof(struct GrafoSt));
     Lado * temp_cont = NULL;
+
+    //        res =fscanf(stdin,"c %[^\n] \n",queimprime);
 
 
     /* Leer n y m */
@@ -100,7 +117,7 @@ Grafo ConstruirGrafo(){
     int res;
 
     
-    u32 *vertex_array = malloc(2 * g->m_lados);
+    u32 *vertex_array = malloc(2 * g->m_lados* sizeof(u32));
     
     temp_cont = malloc(g->m_lados * sizeof(struct Lado_s));
     
@@ -115,16 +132,10 @@ Grafo ConstruirGrafo(){
         vertex_array[i] = temp_cont[i].a;
         vertex_array[i + g->m_lados] = temp_cont[i].b;
 
-        printf("scanf: %u %u - i: %u\n",temp_cont[i].a, temp_cont[i].b, i);
+    /*    printf("scanf: %u %u vertex %u %u- i: %u\n",temp_cont[i].a, temp_cont[i].b, vertex_array[i],
+                                                    vertex_array[i + g->m_lados], i);*/
     }
-
-
-    for(u32 i = 0; i < g->m_lados; i++){
-
-        printf("%u %u \n",temp_cont[i].a,temp_cont[i].b);
-
-    }
-    printf("\n");
+    
 
     qsort(vertex_array, g->m_lados * 2, sizeof(u32),&compare);
     
@@ -144,18 +155,23 @@ Grafo ConstruirGrafo(){
         }
         
     }
+    qsort(temp_cont,g->m_lados,sizeof(Lado),&compare_Lado);
 
-   /*for(u32 i = 0; i < g->m_lados; i++){
-
+    /*
+    for(u32 i = 0; i < g->m_lados; i++){
         printf("%u %u \n",temp_cont[i].a,temp_cont[i].b);
+    }
+    */
 
-    }*/
+   for (u32 i = 0; i < g->m_lados; i++){
+
     
+    
+    }
+   
 
-
-
-    //printf("problemas de free:\n");
-    //free(vertex_array);
+    free(vertex_array);
+    free(temp_cont);
 
     return g;
 }
