@@ -203,16 +203,16 @@ Grafo ConstruirGrafo(){
 
     }
    
-    /*
+    
     struct Vertice_s test_vert =g->lista_vert[0] ;
 
     for (u32 i = 0; i < test_vert.grado; i++){
         aux_ind =test_vert.vecinos[i];
-        u32 aux_name = g->lista_vert[i].nombre;
-        printf("soy  %u y soy vecino de vecino de%u y mi grado es %u \n",test_vert.nombre,aux_name,test_vert.grado);
+        u32 aux_name = g->lista_vert[aux_ind].nombre;
+        printf("soy  %u y soy vecino de vecino de %u y mi grado es %u \n",test_vert.nombre,aux_name,test_vert.grado);
     }
     
-    */
+    
     
 
     free(vertex_array);
