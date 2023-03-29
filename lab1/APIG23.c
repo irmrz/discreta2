@@ -38,7 +38,6 @@ static void add_neighbour(Grafo g, u32 vertice_index, u32 vecino_index){
     g->lista_vert[vertice_index].grado++;
 }
 
-
 static void destruir_vertice(vertice v){
     v = v;
 }
@@ -67,6 +66,20 @@ static int compare(const void *_a, const void *_b) {
         b = (u32 *) _b;
         
         return (*a - *b);
+}
+
+static u32 get_index(vertice vertices,u32 start_serch, u32 name){
+
+    assert(vertices != NULL);
+
+    u32 answer = start_serch;
+            
+    while (vertices[answer].nombre != name){
+        answer++;
+    }
+    
+    return answer;
+
 }
 
 
@@ -145,7 +158,7 @@ Grafo ConstruirGrafo(){
     for(u32 i = 0; i < 2*g->m_lados; i++){
         
         if (aux_ind != vertex_array[i]){
-            aux_ind = vertex_array[i];
+            aux_ind = vertex_array[i];          //count cuenta la posicion en memoria y aux_ind guarda el nombre del vertice
             g->lista_vert[count] = make_vert(count, aux_ind);
             count++;
         }
@@ -163,12 +176,44 @@ Grafo ConstruirGrafo(){
     }
     */
 
-   for (u32 i = 0; i < g->m_lados; i++){
+    u32 lado_i, lado_d;
+    u32 aux_ind_2 = 0;
+    lado_i= 0;
+    lado_d= 0;
+   
+    aux_ind = 0;
 
-    
-    
+    for (u32 i = 0; i < g->m_lados; i++){
+
+        lado_i = temp_cont[i].a;
+        lado_d = temp_cont[i].b;
+
+        if (lado_i != g->lista_vert[aux_ind].nombre){
+            aux_ind_2 = 0;
+            aux_ind = get_index(g->lista_vert,aux_ind,lado_i);
+        }
+        if (lado_d!=g->lista_vert[aux_ind_2].nombre){
+            aux_ind_2 = get_index(g->lista_vert,aux_ind_2,lado_d);
+        }
+
+            
+        add_neighbour(g,aux_ind,aux_ind_2);
+        add_neighbour(g,aux_ind_2,aux_ind);
+
+
     }
    
+    /*
+    struct Vertice_s test_vert =g->lista_vert[0] ;
+
+    for (u32 i = 0; i < test_vert.grado; i++){
+        aux_ind =test_vert.vecinos[i];
+        u32 aux_name = g->lista_vert[i].nombre;
+        printf("soy  %u y soy vecino de vecino de%u y mi grado es %u \n",test_vert.nombre,aux_name,test_vert.grado);
+    }
+    
+    */
+    
 
     free(vertex_array);
     free(temp_cont);
