@@ -4,6 +4,6 @@
 int main ()
 {
   Grafo g = ConstruirGrafo();
-  g = g;
+  DestruirGrafo(g);
   return 0;
 }

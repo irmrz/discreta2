@@ -38,10 +38,6 @@ static void add_neighbour(Grafo g, u32 vertice_index, u32 vecino_index){
     g->lista_vert[vertice_index].grado++;
 }
 
-static void destruir_vertice(vertice v){
-    v = v;
-}
-
 static int compare_Lado(const void *_a, const void *_b){
     Lado *a, *b;
         
@@ -84,23 +80,9 @@ static u32 get_index(vertice vertices,u32 start_serch, u32 name){
 
 
 Grafo ConstruirGrafo(){
-
-    //leer los datos del archivo
-
-    //pedir memoria para la estructura del grafo y la lista de vertices, en este momento ya sabremos
-    // el numero de vertices y de lados
-
-    //ordenar los datos y asignar un indice al vertices 
-
-    //crear los vertices y agregar los vecinos segun corresponda
-
-    // hacer un maximo para encontrar el vertice que tenga el mayor numero de vecinos y asignarlo al delta
     Grafo g = NULL;
     g = malloc(sizeof(struct GrafoSt));
     Lado * temp_cont = NULL;
-
-    //        res =fscanf(stdin,"c %[^\n] \n",queimprime);
-
 
     /* Leer n y m */
     int bool = 0;
@@ -144,9 +126,6 @@ Grafo ConstruirGrafo(){
         }
         vertex_array[i] = temp_cont[i].a;
         vertex_array[i + g->m_lados] = temp_cont[i].b;
-
-    /*    printf("scanf: %u %u vertex %u %u- i: %u\n",temp_cont[i].a, temp_cont[i].b, vertex_array[i],
-                                                    vertex_array[i + g->m_lados], i);*/
     }
     
 
@@ -166,15 +145,8 @@ Grafo ConstruirGrafo(){
         if (count == g->n_vertices){
             break;
         }
-        
     }
     qsort(temp_cont,g->m_lados,sizeof(Lado),&compare_Lado);
-
-    /*
-    for(u32 i = 0; i < g->m_lados; i++){
-        printf("%u %u \n",temp_cont[i].a,temp_cont[i].b);
-    }
-    */
 
     u32 lado_i, lado_d;
     u32 aux_ind_2 = 0;
@@ -200,20 +172,11 @@ Grafo ConstruirGrafo(){
         add_neighbour(g,aux_ind,aux_ind_2);
         add_neighbour(g,aux_ind_2,aux_ind);
 
-
     }
    
     
     struct Vertice_s test_vert =g->lista_vert[0] ;
 
-    for (u32 i = 0; i < test_vert.grado; i++){
-        aux_ind =test_vert.vecinos[i];
-        u32 aux_name = g->lista_vert[aux_ind].nombre;
-        printf("soy  %u y soy vecino de vecino de %u y mi grado es %u \n",test_vert.nombre,aux_name,test_vert.grado);
-    }
-    
-    
-    
 
     free(vertex_array);
     free(temp_cont);
@@ -224,9 +187,12 @@ Grafo ConstruirGrafo(){
 
 void DestruirGrafo(Grafo G){
 
-    //
-    G = G;
-
+    for (u32 i = 0; i < G->n_vertices; i++)
+    {
+        free(G->lista_vert[i].vecinos);
+    }
+    free(G->lista_vert);
+    free(G);
 }
 
 
