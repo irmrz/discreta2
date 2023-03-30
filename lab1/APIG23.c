@@ -10,7 +10,6 @@ static struct Vertice_s make_vert(u32 index, u32 name){
     aux_vert.nombre = name;
     aux_vert.grado = 0;
     aux_vert.capacity = 0;
-
     aux_vert.vecinos = NULL;
 
     //printf("vertice creado name: %u index: %u\n",aux_vert.nombre,aux_vert.index);
@@ -80,14 +79,21 @@ static u32 get_index(vertice vertices,u32 start_serch, u32 name){
 
 
 Grafo ConstruirGrafo(){
+    /* Inicializacion del grafo y alloc de memoria*/
     Grafo g = NULL;
     g = malloc(sizeof(struct GrafoSt));
-    Lado * temp_cont = NULL;
-
-    /* Leer n y m */
-    int bool = 0;
-    int res = 0;
+    
+    /* Declaración de variables */
+    u32 *vertex_array;
+    Lado * temp_cont;
+    int bool, res;
     char queimprime[1];
+    u32 aux_ind, nombre_del_vertice, count, lado_i, lado_d;;
+
+    /* Lectura de los comentarios del formato Dimacs (primeras lineas) */
+
+    bool = 0;
+    res = 0;
     while (!bool)
     {
         res = scanf(" %c",queimprime);
@@ -110,6 +116,8 @@ Grafo ConstruirGrafo(){
         }
          
     }
+
+    /* Leer numero de vertices y de lados  */
     /* 
     No se agrega la 'p' ya que es consumida por el ciclo de arriba para saber a partir de que linea se consiguen los datos
     Tambien lee salto de linea ¡OJO AL PIOJO!
@@ -121,12 +129,13 @@ Grafo ConstruirGrafo(){
         }
     printf("n: %u m: %u\n",g->n_vertices,g->m_lados);
     
-
+    /* Inicializacion del arreglo con la lista de vertices */
     g->lista_vert = malloc(g->n_vertices * sizeof(struct Vertice_s));
 
+    /* Arreglo que contiene todos los vertices que aparecen en un lado (tiene repeticiones de vertices) */
+    vertex_array = malloc(2 * g->m_lados* sizeof(u32));
     
-    u32 *vertex_array = malloc(2 * g->m_lados* sizeof(u32));
-    
+    /* Arreglo con los lados */
     temp_cont = malloc(g->m_lados * sizeof(struct Lado_s));
     
     for (u32 i = 0; i < g->m_lados; i++)
@@ -141,17 +150,18 @@ Grafo ConstruirGrafo(){
         vertex_array[i + g->m_lados] = temp_cont[i].b;
     }
     
-
+    /* Ordenamos el arreglo con vertices repetidos */
     qsort(vertex_array, g->m_lados * 2, sizeof(u32),&compare);
     
-    u32 count = 0;
-    u32 aux_ind = 0;
+    /* Llenamos el arreglo de vertices */
+    count = 0;
+    nombre_del_vertice = 0;
 
     for(u32 i = 0; i < 2*g->m_lados; i++){
         
-        if (aux_ind != vertex_array[i]){
-            aux_ind = vertex_array[i];          //count cuenta la posicion en memoria y aux_ind guarda el nombre del vertice
-            g->lista_vert[count] = make_vert(count, aux_ind);
+        if (nombre_del_vertice != vertex_array[i]){
+            nombre_del_vertice = vertex_array[i];          //count cuenta la posicion en memoria y nombre_del_vertice guarda el nombre del vertice
+            g->lista_vert[count] = make_vert(count, nombre_del_vertice);
             count++;
         }
         
@@ -159,9 +169,10 @@ Grafo ConstruirGrafo(){
             break;
         }
     }
+
+    /* Ordenamos el array de lados */
     qsort(temp_cont,g->m_lados,sizeof(Lado),&compare_Lado);
 
-    u32 lado_i, lado_d;
     u32 aux_ind_2 = 0;
     lado_i= 0;
     lado_d= 0;
@@ -180,8 +191,7 @@ Grafo ConstruirGrafo(){
         if (lado_d!=g->lista_vert[aux_ind_2].nombre){
             aux_ind_2 = get_index(g->lista_vert,aux_ind_2,lado_d);
         }
-
-            
+          
         add_neighbour(g,aux_ind,aux_ind_2);
         add_neighbour(g,aux_ind_2,aux_ind);
 
