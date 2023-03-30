@@ -86,14 +86,24 @@ Grafo ConstruirGrafo(){
 
     /* Leer n y m */
     int bool = 0;
+    int res = 0;
     char queimprime[1];
     while (!bool)
     {
-        scanf(" %c",queimprime);
+        res = scanf(" %c",queimprime);
+        if (res != 1)
+        {
+            exit(EXIT_FAILURE);
+        }
 
         if (queimprime[0] == 'c'){
             do {
-                scanf("%c",queimprime);
+                res = scanf("%c",queimprime);
+                if (res != 1)
+                {
+                    exit(EXIT_FAILURE);
+                }
+                
             } while (queimprime[0] != '\n');
         }else{
             bool = 1;
@@ -104,12 +114,15 @@ Grafo ConstruirGrafo(){
     No se agrega la 'p' ya que es consumida por el ciclo de arriba para saber a partir de que linea se consiguen los datos
     Tambien lee salto de linea ¡OJO AL PIOJO!
     */
-    scanf(" edge %u %u\n", &g->n_vertices, &g->m_lados); 
+    res = scanf(" edge %u %u\n", &g->n_vertices, &g->m_lados); 
+    if (res != 2)
+        {
+            exit(EXIT_FAILURE);
+        }
     printf("n: %u m: %u\n",g->n_vertices,g->m_lados);
     
 
     g->lista_vert = malloc(g->n_vertices * sizeof(struct Vertice_s));
-    int res;
 
     
     u32 *vertex_array = malloc(2 * g->m_lados* sizeof(u32));
@@ -173,10 +186,6 @@ Grafo ConstruirGrafo(){
         add_neighbour(g,aux_ind_2,aux_ind);
 
     }
-   
-    
-    struct Vertice_s test_vert =g->lista_vert[0] ;
-
 
     free(vertex_array);
     free(temp_cont);
