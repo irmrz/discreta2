@@ -173,7 +173,7 @@ Grafo ConstruirGrafo(){
     printf("Llenado list vert\n");
     /* Ordenamos el array de lados */
     qsort(temp_cont,g->m_lados,sizeof(Lado),&compare_Lado);
-    for (u32 i = g->m_lados-15; i < g->m_lados; i++)
+    for (u32 i = (g->m_lados)-15; i < g->m_lados; i++)
     {
         printf("%u -> %u %u\n",i,temp_cont[i].a, temp_cont[i].b);
     }
@@ -182,12 +182,11 @@ Grafo ConstruirGrafo(){
     lado_d= 0;
    
     aux_ind = 0;
-
+    u32 grado = 0;
     for (u32 i = 0; i < g->m_lados; i++){
 
         lado_i = temp_cont[i].a;
         lado_d = temp_cont[i].b;
-
         if (lado_i != g->lista_vert[aux_ind].nombre){
             aux_ind_2 = 0;
             aux_ind = get_index(g->lista_vert,aux_ind,lado_i);
@@ -199,7 +198,19 @@ Grafo ConstruirGrafo(){
         add_neighbour(g,aux_ind,aux_ind_2);
         add_neighbour(g,aux_ind_2,aux_ind);
 
+        if (grado < g->lista_vert[aux_ind].grado)
+        {
+            if (grado >= g->lista_vert[aux_ind_2].grado)
+            {
+                grado = g->lista_vert[aux_ind_2].grado;
+            }
+            
+            grado = g->lista_vert[aux_ind].grado;
+        }
+        
     }
+    g->delta = grado;
+    printf("delta: %u\n",g->delta);
     printf("Vecinos llenos\n");
     free(vertex_array);
     free(temp_cont);
