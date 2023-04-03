@@ -40,27 +40,26 @@ static void add_neighbour(Grafo g, u32 vertice_index, u32 vecino_index){
 static int compare_Lado(const void *_a, const void *_b){
     Lado *a, *b;
         
-        a = (Lado *) _a;
-        b = (Lado *) _b;
+    a = (Lado *) _a;
+    b = (Lado *) _b;
 
-        int result= a->a - b->a;
-
-
-        if (result == 0){
-            result = a->b - b->b;
-        }
-
-        return result;
+    if (a->a < b->a) return -1;
+    else if (a->a == b->a)
+    {
+        if (a->b <= b->b) return -1;
+        else if (a->b > b->b) return 1;
+    }
+    return 1;
 }
 
 static int compare(const void *_a, const void *_b) {
  
-        u32 *a, *b;
-        
-        a = (u32 *) _a;
-        b = (u32 *) _b;
-        
-        return (*a - *b);
+    u32 va = *(const u32*)_a;
+    u32 vb = *(const u32*)_b;
+
+    if (va < vb) return -1;
+    if (va == vb) return 0;
+    else return 1;
 }
 
 static u32 get_index(vertice vertices,u32 start_serch, u32 name){
@@ -74,7 +73,6 @@ static u32 get_index(vertice vertices,u32 start_serch, u32 name){
     }
     
     return answer;
-
 }
 
 
@@ -152,13 +150,16 @@ Grafo ConstruirGrafo(){
     
     /* Ordenamos el arreglo con vertices repetidos */
     qsort(vertex_array, g->m_lados * 2, sizeof(u32),&compare);
+    for (u32 i = (2*g->m_lados)-15; i < 2*g->m_lados; i++)
+    {
+        printf("%u -> %u\n",i,vertex_array[i]);
+    }
     
     /* Llenamos el arreglo de vertices */
     count = 0;
     nombre_del_vertice = 0;
 
     for(u32 i = 0; i < 2*g->m_lados; i++){
-        
         if (nombre_del_vertice != vertex_array[i]){
             nombre_del_vertice = vertex_array[i];          //count cuenta la posicion en memoria y nombre_del_vertice guarda el nombre del vertice
             g->lista_vert[count] = make_vert(count, nombre_del_vertice);
@@ -169,10 +170,13 @@ Grafo ConstruirGrafo(){
             break;
         }
     }
-
+    printf("Llenado list vert\n");
     /* Ordenamos el array de lados */
     qsort(temp_cont,g->m_lados,sizeof(Lado),&compare_Lado);
-
+    for (u32 i = g->m_lados-15; i < g->m_lados; i++)
+    {
+        printf("%u -> %u %u\n",i,temp_cont[i].a, temp_cont[i].b);
+    }
     u32 aux_ind_2 = 0;
     lado_i= 0;
     lado_d= 0;
@@ -196,7 +200,7 @@ Grafo ConstruirGrafo(){
         add_neighbour(g,aux_ind_2,aux_ind);
 
     }
-
+    printf("Vecinos llenos\n");
     free(vertex_array);
     free(temp_cont);
 
