@@ -12,7 +12,6 @@ static struct Vertice_s make_vert(u32 index, u32 name){
     aux_vert.capacity = 0;
     aux_vert.vecinos = NULL;
 
-    //printf("vertice creado name: %u index: %u\n",aux_vert.nombre,aux_vert.index);
     return aux_vert;
 }
 
@@ -72,7 +71,6 @@ static u32 get_index(u32 n, vertice vertices,u32 start_serch, u32 name){
         answer = (answer+1) % n;
         if (answer == n - 1)
         {
-            printf("Hizo break %u\n",name);
             break;
         }
     }
@@ -130,7 +128,6 @@ Grafo ConstruirGrafo(){
         {
             exit(EXIT_FAILURE);
         }
-    printf("n: %u m: %u\n",g->n_vertices,g->m_lados);
     
     /* Inicializacion del arreglo con la lista de vertices */
     g->lista_vert = malloc(g->n_vertices * sizeof(struct Vertice_s));
@@ -146,7 +143,6 @@ Grafo ConstruirGrafo(){
         res = scanf("e %u %u\n", &temp_cont[i].a, &temp_cont[i].b);
         if (res != 2)
         {
-            printf("Error in format\n");
             exit(EXIT_FAILURE);
         }
         vertex_array[i] = temp_cont[i].a;
@@ -155,11 +151,6 @@ Grafo ConstruirGrafo(){
     
     /* Ordenamos el arreglo con vertices repetidos */
     qsort(vertex_array, g->m_lados * 2, sizeof(u32),&compare);
-    
-    for (u32 i = (2*g->m_lados)-5; i < 2*g->m_lados; i++)
-    {
-        printf("%u -> %u\n",i,vertex_array[i]);
-    }
     
     
     /* Llenamos el arreglo de vertices */
@@ -177,16 +168,10 @@ Grafo ConstruirGrafo(){
             break;
         }
     }
-    printf("Llenado list vert\n");
     /* Ordenamos el array de lados */
     qsort(temp_cont,g->m_lados,sizeof(Lado),&compare_Lado);
     
-    for (u32 i = (g->m_lados)-5; i < g->m_lados; i++)
-    {
-        printf("%u -> %u %u\n",i,temp_cont[i].a, temp_cont[i].b);
-    }
-    
-    printf("Llenado temp_cont\n");
+
     u32 aux_ind_2 = 0;
     lado_i= 0;
     lado_d= 0;
@@ -220,8 +205,7 @@ Grafo ConstruirGrafo(){
         
     }
     g->delta = grado;
-    printf("delta: %u\n",g->delta);
-    printf("Vecinos llenos\n");
+
     free(vertex_array);
     free(temp_cont);
 
