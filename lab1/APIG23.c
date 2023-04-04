@@ -62,14 +62,19 @@ static int compare(const void *_a, const void *_b) {
     else return 1;
 }
 
-static u32 get_index(vertice vertices,u32 start_serch, u32 name){
+static u32 get_index(u32 n, vertice vertices,u32 start_serch, u32 name){
 
     assert(vertices != NULL);
 
     u32 answer = start_serch;
-            
+
     while (vertices[answer].nombre != name){
-        answer++;
+        answer = (answer+1) % n;
+        if (answer == n - 1)
+        {
+            printf("Hizo break %u\n",name);
+            break;
+        }
     }
     
     return answer;
@@ -150,10 +155,12 @@ Grafo ConstruirGrafo(){
     
     /* Ordenamos el arreglo con vertices repetidos */
     qsort(vertex_array, g->m_lados * 2, sizeof(u32),&compare);
-    for (u32 i = (2*g->m_lados)-15; i < 2*g->m_lados; i++)
+    
+    for (u32 i = (2*g->m_lados)-5; i < 2*g->m_lados; i++)
     {
         printf("%u -> %u\n",i,vertex_array[i]);
     }
+    
     
     /* Llenamos el arreglo de vertices */
     count = 0;
@@ -173,10 +180,13 @@ Grafo ConstruirGrafo(){
     printf("Llenado list vert\n");
     /* Ordenamos el array de lados */
     qsort(temp_cont,g->m_lados,sizeof(Lado),&compare_Lado);
-    for (u32 i = (g->m_lados)-15; i < g->m_lados; i++)
+    
+    for (u32 i = (g->m_lados)-5; i < g->m_lados; i++)
     {
         printf("%u -> %u %u\n",i,temp_cont[i].a, temp_cont[i].b);
     }
+    
+    printf("Llenado temp_cont\n");
     u32 aux_ind_2 = 0;
     lado_i= 0;
     lado_d= 0;
@@ -189,24 +199,24 @@ Grafo ConstruirGrafo(){
         lado_d = temp_cont[i].b;
         if (lado_i != g->lista_vert[aux_ind].nombre){
             aux_ind_2 = 0;
-            aux_ind = get_index(g->lista_vert,aux_ind,lado_i);
+            aux_ind = get_index(g->n_vertices, g->lista_vert,aux_ind,lado_i);
         }
         if (lado_d!=g->lista_vert[aux_ind_2].nombre){
-            aux_ind_2 = get_index(g->lista_vert,aux_ind_2,lado_d);
+            aux_ind_2 = get_index(g->n_vertices, g->lista_vert,aux_ind_2,lado_d);
         }
           
         add_neighbour(g,aux_ind,aux_ind_2);
         add_neighbour(g,aux_ind_2,aux_ind);
 
         if (grado < g->lista_vert[aux_ind].grado)
-        {
-            if (grado >= g->lista_vert[aux_ind_2].grado)
-            {
-                grado = g->lista_vert[aux_ind_2].grado;
-            }
-            
+        {   
             grado = g->lista_vert[aux_ind].grado;
         }
+        if (grado < g->lista_vert[aux_ind_2].grado)
+        {
+            grado = g->lista_vert[aux_ind_2].grado;
+        }
+        
         
     }
     g->delta = grado;
