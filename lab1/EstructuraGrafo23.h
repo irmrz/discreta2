@@ -1,7 +1,6 @@
 #ifndef EstructuraGrafos3_H
 #define EstructuraGrafos3_H
 
-#include "APIG23.h"
 #include <stdint.h>
 #include <assert.h>
 #include <stdlib.h>
