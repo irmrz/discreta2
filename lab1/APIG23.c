@@ -30,7 +30,7 @@ static void add_neighbour(Grafo g, u32 vertice_index, u32 vecino_index){
 
 Grafo ConstruirGrafo(){
     Grafo g = NULL;
-    g = malloc(sizeof(struct GrafoSt));
+    g = malloc(sizeof(GrafoSt));
     Lado * temp_cont = NULL;
 
     /* Leer n y m */

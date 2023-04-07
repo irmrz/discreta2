@@ -23,12 +23,12 @@ struct Vertice_s {
 };
 
 /* Grafo */
-struct GrafoSt{
+typedef struct grafo_s {
    u32 n_vertices; 
    u32 m_lados;
    u32 delta;
    struct Vertice_s *lista_vert;
-};
+}GrafoSt;
 
 typedef struct Lado_s
     {

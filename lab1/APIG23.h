@@ -12,7 +12,7 @@
 
 //Grafo es un puntero a una estructura GrafoSt, la cual debe estar definida en el .h de arriba
 
-typedef struct GrafoSt *Grafo;
+typedef GrafoSt *Grafo;
 
 
 //construcci'on/destrucci'on
