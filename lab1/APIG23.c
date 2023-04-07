@@ -10,7 +10,6 @@ static void add_neighbour(Grafo g, u32 vertice_index, u32 vecino_index){
     
     assert(g != NULL);
     if(vertice_index > g->n_vertices){
-        printf("%u \n", vertice_index);
         assert(vertice_index != vertice_index);
     }
 
@@ -34,15 +33,26 @@ Grafo ConstruirGrafo(){
     Lado * temp_cont = NULL;
 
     /* Leer n y m */
+    int res = 0;
     int auxbool = 0;
     char queimprime[1];
     while (!auxbool)
     {
-        scanf(" %c",queimprime);
+        res = scanf(" %c",queimprime);
+        if (res != 1)
+        {
+            printf("Error in format\n");
+            exit(EXIT_FAILURE);
+        }
 
         if (queimprime[0] == 'c'){
             do {
-                scanf("%c",queimprime);
+                res = scanf("%c",queimprime);
+                if (res != 1)
+                {
+                    printf("Error in format\n");
+                    exit(EXIT_FAILURE);
+                }
             } while (queimprime[0] != '\n');
         }else{
             auxbool = 1;
@@ -53,20 +63,22 @@ Grafo ConstruirGrafo(){
     No se agrega la 'p' ya que es consumida por el ciclo de arriba para saber a partir de que linea se consiguen los datos
     Tambien lee salto de linea ¡OJO AL PIOJO!
     */
-    scanf(" edge %u %u\n", &g->n_vertices, &g->m_lados); 
-    printf("n: %u m: %u\n",g->n_vertices,g->m_lados);
+    res = scanf(" edge %u %u\n", &g->n_vertices, &g->m_lados); 
+    if (res != 2)
+    {
+        printf("Error in format\n");
+        exit(EXIT_FAILURE);
+    }
     
 
     g->lista_vert = malloc(g->n_vertices * sizeof(struct Vertice_s));
-    int res;
+    
     
     abb vertex_tree = abb_empty();
     
     temp_cont = malloc(g->m_lados * sizeof(struct Lado_s));
     
-    
-    printf("cargando vertices\n");    
-            
+                
 
     for (u32 i = 0; i < g->m_lados; i++){
         res = scanf("e %u %u\n", &temp_cont[i].a, &temp_cont[i].b);
@@ -78,11 +90,6 @@ Grafo ConstruirGrafo(){
         vertex_tree = abb_add(vertex_tree,temp_cont[i].a);
         vertex_tree = abb_add(vertex_tree, temp_cont[i].b);
     }
-
-    //abb_dump(vertex_tree);
-
-    printf("todos los vertices cargados\n");
-    
     
     abb_set_index_and_load(vertex_tree,g->lista_vert,0);
 
@@ -90,7 +97,6 @@ Grafo ConstruirGrafo(){
 
     //load_pre_ord_vert(vertex_tree,g->lista_vert);
     
-    printf("vertices generados\n");
     u32 lado_i, lado_d;
     u32 aux_ind_2 = 0;
     u32 aux_ind = 0;
@@ -116,7 +122,7 @@ Grafo ConstruirGrafo(){
         add_neighbour(g,aux_ind_2,aux_ind);
 
     }
-    u32 max_grado =0;
+    u32 max_grado = 0;
 
     for (u32 i = 0; i < g->n_vertices; i++){
         if (max_grado<g->lista_vert[i].grado){
@@ -124,12 +130,7 @@ Grafo ConstruirGrafo(){
         }    
     }
     
-
     g->delta = max_grado;
-    printf("grado: %u\n",g->delta);
-
-    printf("vecinos añadidos\n");
-
 
     abb_destroy(vertex_tree);
     free(temp_cont);
