@@ -1,0 +1,7 @@
+Grupo:
+  todo_por_dos_pesos
+
+Integrantes:
+  - Tomas Alejandro Hubbman
+  - Ignacio Tomas Ramirez
+  - Marcos Emanuel Strasorier
