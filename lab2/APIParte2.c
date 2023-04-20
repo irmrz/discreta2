@@ -19,12 +19,13 @@ u32 Greedy(Grafo G,u32* Orden,u32* Color){
     u32 vecinos_count = 0;
     u32 vecino = 0;
     bool used_colors[n];    /*  arreglo de "booleanos" para saber que colores estan 
-                                presentes en los vecionos de un vertices 
+                                presentes en los vecionos de un vertice 
                             */
     u32 *coloreado = calloc(n,sizeof(u32)); /* arreglo que indica si un vertice esta coloreado o no */
     Color[vert] = 0;
     colors_count++;
-
+    coloreado[vert] = 1;
+    
     for (u32 i = 1; i < n; i++){
         
         for (u32 j = 0; j < colors_count; j++){
@@ -32,6 +33,7 @@ u32 Greedy(Grafo G,u32* Orden,u32* Color){
         }
          
         vert = Orden[i];
+        //printf("Vertice: %u\n",vert);
         vecinos_count = Grado(vert,G);
 
         for (u32 j = 0; j < vecinos_count; j++){
@@ -42,19 +44,23 @@ u32 Greedy(Grafo G,u32* Orden,u32* Color){
             
         }
 
+        bool aux_bool = true;
         for (u32 j = 0; j < colors_count; j++){
-            /* Si un color no está usado se lo asignamos al vertice */
+            /* Si un color no está usado se lo asignamos al vertice y salimos del bucle */
             if(used_colors[j] == false){
                 Color[vert] = j;
+                aux_bool = false;
                 break;
             }
             /* Todos los colores hasta el momento estan usados en los vecinos*/
-            if(j == colors_count - 1){
-                Color[vert] = colors_count;
-                colors_count++;
-            }
+            
         }
-        
+        /* Si aux-bool es true -> los vecinos usaron todos los colores anterio*/
+        if (aux_bool){
+            Color[vert] = colors_count;
+            //printf("Se uso el color: %u en vert: %u \n",colors_count,vert);
+            colors_count++;
+        }
         coloreado[i] = 1;
     }
     free(coloreado);

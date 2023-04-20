@@ -14,4 +14,4 @@ abb.o:
 	gcc -Wall -DNDEBUG2 -O3 -std=c99 -c abb.c
 
 clean:
-	rm *.o test
+	rm *.o test *.txt
