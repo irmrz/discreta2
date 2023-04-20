@@ -178,16 +178,13 @@ u32 Grado(u32 i,Grafo G) {
 }
 
 u32 IndiceVecino(u32 j,u32 i,Grafo G) {
-    if (i >= G->n_vertices)
-    {
+    if (i >= G->n_vertices){
         return ERROR;
     }
-    else if (j >= G->lista_vert[i].grado)
-    {
+    else if (j >= G->lista_vert[i].grado){
         return ERROR;
     }
-    else
-    {
+    else{
         return G->lista_vert[i].vecinos[j];
     }
 }
