@@ -3,25 +3,57 @@
 #include <assert.h>
 #include <stdbool.h>
 
+
 /* Estructura de pares que tendra el arreglo auxiliar */
-typedef struct par_s{
+typedef struct tupla_s{
     u32 indice;
     u32 color;
-}par;
+    u32 jedi;
+}tupla;
 
+//si no sale jedi agregar el campo name al tupla
+
+static int cmp_color(const void *_a, const void *_b){
+
+    u32 a = ((tupla *)_a)->color;
+    u32 b = ((tupla *)_b)->color;
+
+    if (a < b) return -1;
+    if (a >b) return 1;
+
+    return 0;
+    
+}
+
+static int cmp_jedi(const void *_a, const void *_b){
+
+    tupla a = *(tupla *)_a;
+    tupla b = *(tupla *)_b;
+
+    if (a.jedi < b.jedi) return 1;
+    if (a.jedi > b.jedi) return -1;
+
+    if (a.color != b.color){
+
+        return a.color < b.color ? 1 : -1; 
+    }
+
+    return 0;
+
+}
 
 
 static int cmp_impar_par(const void *_a, const void *_b){
     u32 a, b;
 
     /*
-    la expresión ((par *)_a) convierte el puntero de tipo void * _a 
-    a un puntero de tipo par *, 
-    permitiendo acceder al miembro color de la estructura par.
+    la expresión ((tupla *)_a) convierte el puntero de tipo void * _a 
+    a un puntero de tipo tupla *, 
+    permitiendo acceder al miembro color de la estructura tupla.
     */
 
-    a = ((par *)_a)->color;
-    b = ((par *)_b)->color;
+    a = ((tupla *)_a)->color;
+    b = ((tupla *)_b)->color;
 
     // veo si uno es par y el otro impares
     if ((a % 2) != (b % 2)) {
@@ -44,25 +76,6 @@ a < b -> 1
 a > b -> -1
 */
 
-
-// 1  a es mayor que b
-// -1 b es mayor igual que a
-/*
-    a = (Lado *) _a;
-    b = (Lado *) _b;
-    if (a->a < b->a) return -1;
-    else if (a->a == b->a)
-    {
-        if (a->b <= b->b) return -1;
-        else if (a->b > b->b) return 1;
-    }
-    return 1;
-}
-
-*/
-
-
-
 /*
  Orden es un arreglo de indices en algun orden 
  Color: tenemos que completarlo con los colores que correspondan a el coloreo generado, 
@@ -75,14 +88,13 @@ u32 Greedy(Grafo G,u32* Orden,u32* Color){
     assert(((G!=NULL) && (Orden!=NULL) && (Color!=NULL)));
 
     u32 colors_count = 0;    /* Cantidad de colores total que usa el grafo */
-    u32 vert = Orden[0];     /* vertice que se esta procesando*/
     u32 n = NumeroDeVertices(G);
     u32 vecinos_count = 0;
     u32 vecino = 0;
-    u32 *used_colors = calloc(n,sizeof(u32));    /*  arreglo de "booleanos" para saber que colores estan 
-                                presentes en los vecionos de un vertice 
-                            */
     u32 *coloreado = calloc(n,sizeof(u32)); /* arreglo que indica si un vertice esta coloreado o no */
+    u32 *used_colors = calloc(n,sizeof(u32));    /*  arreglo de "booleanos" para saber que colores estan 
+                                                presentes en los vecionos de un vertice */
+    u32 vert = Orden[0];     /* vertice que se esta procesando*/
     Color[vert] = 0;
     colors_count++;
     coloreado[vert] = 1;
@@ -124,7 +136,8 @@ u32 Greedy(Grafo G,u32* Orden,u32* Color){
             //printf("Se uso el color: %u en vert: %u \n",colors_count,vert);
             colors_count++;
         }
-        coloreado[i] = 1;
+
+        coloreado[vert] = 1;
     }
     free(used_colors);
     free(coloreado);
@@ -139,7 +152,8 @@ n es el numero de vertices = largo de los arrays*/
 char OrdenImparPar(u32 n,u32* Orden,u32* Color){
     assert((Orden!=NULL) && (Color!=NULL));
 
-    par *aux_array = calloc(n,sizeof(par));
+    tupla *aux_array = calloc(n,sizeof(tupla));
+    
     if (aux_array == NULL){
         return '1';
     }
@@ -149,7 +163,7 @@ char OrdenImparPar(u32 n,u32* Orden,u32* Color){
         aux_array[i].color = Color[i];
     }
 
-    qsort(aux_array,n,sizeof(par),cmp_impar_par);
+    qsort(aux_array,n,sizeof(tupla),cmp_impar_par);
 
     /*
     for(u32 i = 0; i < n; i++){
@@ -164,4 +178,84 @@ char OrdenImparPar(u32 n,u32* Orden,u32* Color){
 
     free(aux_array);
     return '0';
+}
+/*
+crear el arreglo auxiliar
+ordenar el arreglo auxiliar en funcion del color
+calcular jedi para cada color
+añaadir los jedi al arreglo auxiliar
+ordenarlo en funcion del valor de jedi
+guardar el nuevo orden en el arreglo Orden
+*/
+
+char OrdenJedi(Grafo G,u32* Orden,u32* Color){
+
+    u32 n = NumeroDeVertices(G);
+    tupla *aux_array = calloc(n,sizeof(tupla));
+    u32 *jedi_result = NULL;
+    u32 amount_colors = 0;
+    u32 sum = 0;
+    u32 color = 0;
+
+    if(aux_array == NULL){
+        return '1';
+    }
+
+    for ( u32 i = 0; i < n; i++){
+        aux_array[i].indice = i;
+        aux_array[i].color = Color[i];
+        aux_array[i].jedi = ERROR;
+    }
+    
+    qsort(aux_array,n,sizeof(tupla),cmp_color);
+
+
+    amount_colors = aux_array[n-1].color + 1;
+
+    //printf("Cantidad de colores: %u\n",amount_colors);
+    //arreglo jedi_result largo r = numero de colores
+    //aux2 a cada color i (posicion) le asigna el valor de jedi 
+   
+
+    jedi_result = calloc(amount_colors,sizeof(u32));
+
+    if (jedi_result == NULL){
+        return '1';
+    }
+
+    u32 index = 0;
+
+    for (u32 i = 0; i < amount_colors; i++){
+        
+        sum = 0;
+        color = aux_array[index].color; 
+        while ( index < n && aux_array[index].color == color){
+            sum += Grado(aux_array[index].indice,G);
+            index++;
+        }
+        
+        jedi_result[i] = sum * color;
+
+    }
+    
+    for (u32 i = 0; i < n; i++){
+        aux_array[i].jedi = jedi_result[aux_array[i].color];
+    }
+
+    qsort(aux_array,n,sizeof(tupla),cmp_jedi);
+   /*
+    for (u32 i = 0; i < n; i++){
+        printf("Indice: %u Color: %u Jedi: %u\n",aux_array[i].indice,aux_array[i].color,aux_array[i].jedi);
+    }
+   */
+    
+    for (u32 i = 0; i < n; i++){        
+        Orden[i] = aux_array[i].indice;
+    }
+    
+    free(aux_array);
+    free(jedi_result);
+
+    return '0';    
+
 }
