@@ -4,8 +4,6 @@
 #include "abb.h"
 #include <time.h>
 
-int N =10;
-
 
 int main (){
   clock_t t1;
@@ -43,6 +41,7 @@ int main (){
   printf("char: %c\n", OrdenJedi(g,orden,color));
   printf("despues de Jedi: %f\n", ((double)(clock()-t)/CLOCKS_PER_SEC));
   printf("Delta: %u\tColor count: %u\n", cota, Greedy(g,orden,color));
+  
 
   /*
   for (size_t i = 0; i < 16; i++){

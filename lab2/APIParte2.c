@@ -13,17 +13,6 @@ typedef struct tupla_s{
 
 //si no sale jedi agregar el campo name al tupla
 
-static int cmp_color(const void *_a, const void *_b){
-
-    u32 a = ((tupla *)_a)->color;
-    u32 b = ((tupla *)_b)->color;
-
-    if (a < b) return -1;
-    if (a >b) return 1;
-
-    return 0;
-    
-}
 
 static int cmp_jedi(const void *_a, const void *_b){
 
@@ -194,10 +183,15 @@ char OrdenJedi(Grafo G,u32* Orden,u32* Color){
     tupla *aux_array = calloc(n,sizeof(tupla));
     u32 *jedi_result = NULL;
     u32 amount_colors = 0;
-    u32 sum = 0;
-    u32 color = 0;
-
+    
     if(aux_array == NULL){
+        return '1';
+    }
+
+    //arreglo jedi_result largo r = numero de colores
+    jedi_result = calloc(n,sizeof(u32));
+    
+    if (jedi_result == NULL){
         return '1';
     }
 
@@ -205,37 +199,18 @@ char OrdenJedi(Grafo G,u32* Orden,u32* Color){
         aux_array[i].indice = i;
         aux_array[i].color = Color[i];
         aux_array[i].jedi = ERROR;
-    }
     
-    qsort(aux_array,n,sizeof(tupla),cmp_color);
-
-
-    amount_colors = aux_array[n-1].color + 1;
-
-    //printf("Cantidad de colores: %u\n",amount_colors);
-    //arreglo jedi_result largo r = numero de colores
-    //aux2 a cada color i (posicion) le asigna el valor de jedi 
-   
-
-    jedi_result = calloc(amount_colors,sizeof(u32));
-
-    if (jedi_result == NULL){
-        return '1';
+        jedi_result[Color[i]] += Grado(i,G);
+    
+        if (amount_colors < Color[i]){
+            amount_colors = Color[i];
+        }        
     }
+    amount_colors++;
+    //printf("Cantidad de colores: %u\n",amount_colors); 
 
-    u32 index = 0;
-
-    for (u32 i = 0; i < amount_colors; i++){
-        
-        sum = 0;
-        color = aux_array[index].color; 
-        while ( index < n && aux_array[index].color == color){
-            sum += Grado(aux_array[index].indice,G);
-            index++;
-        }
-        
-        jedi_result[i] = sum * color;
-
+    for (u32 i = 0; i < amount_colors; i++){        
+        jedi_result[i] = jedi_result[i] * i;
     }
     
     for (u32 i = 0; i < n; i++){
@@ -243,12 +218,7 @@ char OrdenJedi(Grafo G,u32* Orden,u32* Color){
     }
 
     qsort(aux_array,n,sizeof(tupla),cmp_jedi);
-   /*
-    for (u32 i = 0; i < n; i++){
-        printf("Indice: %u Color: %u Jedi: %u\n",aux_array[i].indice,aux_array[i].color,aux_array[i].jedi);
-    }
-   */
-    
+
     for (u32 i = 0; i < n; i++){        
         Orden[i] = aux_array[i].indice;
     }
@@ -259,3 +229,5 @@ char OrdenJedi(Grafo G,u32* Orden,u32* Color){
     return '0';    
 
 }
+
+
