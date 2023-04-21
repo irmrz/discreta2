@@ -17,6 +17,21 @@ int main (){
   }
   u32 *color = malloc(sizeof(u32)*n);
   printf("Delta: %u\tColor count: %u\n", cota, Greedy(g,orden,color));
+
+  printf("char: %c\n", OrdenImparPar(n,orden,color));
+
+  /*
+  for(u32 i = 0; i < n; i++){
+        printf("Indice: %u \n",orden[i]);
+  }
+  */
+
+  printf("Delta: %u\tColor count: %u\n", cota, Greedy(g,orden,color));
+  
+  for(u32 i = 0; i < n; i++){
+        printf("Indice: %u \tColor: %u\n",orden[i],color[orden[i]]);
+  }
+
   DestruirGrafo(g);
   
   return 0;
