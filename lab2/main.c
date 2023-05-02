@@ -39,7 +39,6 @@ int main (){
   u32 greedy_2 = 0;
   char imparPar;
   char jedi;
-  bool switches = true;
 
   t1 = clock();
   printf("\n");
@@ -49,144 +48,87 @@ int main (){
   for (size_t i = 0; i < 500; i++){
     
     if (i % 16 == 0) {
-      switches = !switches;
-
       /*Swap de mins*/
       u32 aux = coloreo_min_imparPar;
       coloreo_min_imparPar = coloreo_min_jedi;
       coloreo_min_jedi = aux;
 
       /*Swap orden*/
+      u32 *aux_orden = orden_1;
+      orden_1 = orden_2;
+      orden_2 = aux_orden;
 
       /*Swap coloreo*/
+      u32 *aux_coloreo = color_1 ;
+      color_1 = color_2;
+      color_2 = aux_coloreo;
     }
 
-    if (switches) {
       
-      imparPar = OrdenImparPar(n, orden_1, color_1);
+    imparPar = OrdenImparPar(n, orden_1, color_1);
 
-      if (!ordenIP(g, orden_1, color_1))
-      {
-        printf("Orden invalido en imparPar\n");
-        exit(EXIT_FAILURE);
-      }
+    if (!ordenIP(g, orden_1, color_1))
+    {
+      printf("Orden invalido en imparPar\n");
+      exit(EXIT_FAILURE);
+    }
       
-      greedy_1 = Greedy(g, orden_1, color_1);
+    greedy_1 = Greedy(g, orden_1, color_1);
 
       /* Checkeamos que los coloreos sean correctos*/
-      if (!coloreo_prop(g,color_1)){
-        printf("Coloreo invalido en imparPar\n");
-        exit(EXIT_FAILURE);
-      }
+    if (!coloreo_prop(g,color_1)){
+      printf("Coloreo invalido en imparPar\n");
+      exit(EXIT_FAILURE);
+    }
 
 
-      jedi = OrdenJedi(g, orden_2, color_2);
+    jedi = OrdenJedi(g, orden_2, color_2);
 
-      if (!ordenJ(g, orden_2, color_2))
-      {
-        printf("Orden invalido en Jedi\n");
-        exit(EXIT_FAILURE);
-      }
+    if (!ordenJ(g, orden_2, color_2))
+    {
+      printf("Orden invalido en Jedi\n");
+      exit(EXIT_FAILURE);
+    }
 
-      greedy_2 = Greedy(g, orden_2, color_2);
+    greedy_2 = Greedy(g, orden_2, color_2);
 
       /* Checkeamos que los coloreos sean correctos*/
 
-      if (!coloreo_prop(g,color_2)){
-        printf("Coloreo invalido en Jedi\n");
-        exit(EXIT_FAILURE);
-      }
+    if (!coloreo_prop(g,color_2)){
+      printf("Coloreo invalido en Jedi\n");
+      exit(EXIT_FAILURE);
+    }
 
       
 
       
       /* Check de que ande todo bien y seteamos el coloreo minimo */
       
-      if (coloreo_min_imparPar >= greedy_1) coloreo_min_imparPar = greedy_1;
-      else
-      {
-        printf("Se rompe el invariante en imparPar -> greedy:%u -> min_IP:%u\n", greedy_1, coloreo_min_imparPar);
-        exit(EXIT_FAILURE);
-      }
-
-
-      if (coloreo_min_jedi >= greedy_2) coloreo_min_jedi = greedy_2;
-      else
-      {
-        printf("Se rompe el invariante en jedi -> greedy:%u -> min_jedi: %u\n", greedy_2, coloreo_min_jedi);
-        exit(EXIT_FAILURE);
-      }
-      
-      if (imparPar == '1') {
-        printf("Error en imparPar\n");
-        exit(EXIT_FAILURE);
-      }
-      if (jedi == '1') {
-        printf("Error en Jedi\n");
-        exit(EXIT_FAILURE);
-      }
+    if (coloreo_min_imparPar >= greedy_1) coloreo_min_imparPar = greedy_1;
+    else
+    {
+      printf("Se rompe el invariante en imparPar -> greedy:%u -> min_IP:%u\n", greedy_1, coloreo_min_imparPar);
+      exit(EXIT_FAILURE);
     }
-    
-    else {
 
-      imparPar = OrdenImparPar(n, orden_2, color_2);
-      if (!ordenIP(g, orden_2, color_2))
-      {
-        printf("Orden invalido en imparPar\n");
-        exit(EXIT_FAILURE);
-      }
 
-      greedy_1 = Greedy(g, orden_2, color_2);
+    if (coloreo_min_jedi >= greedy_2) coloreo_min_jedi = greedy_2;
+    else
+    {
+      printf("Se rompe el invariante en jedi -> greedy:%u -> min_jedi: %u\n", greedy_2, coloreo_min_jedi);
+      exit(EXIT_FAILURE);
+    }
       
-      if (!coloreo_prop(g,color_2)){
-        printf("Coloreo invalido en imparPar\n");
-        exit(EXIT_FAILURE);
-      }
-      
-      jedi = OrdenJedi(g, orden_1, color_1);
-
-      if (!ordenJ(g, orden_1, color_1))
-      {
-        printf("Orden invalido en Jedi\n");
-        exit(EXIT_FAILURE);
-      }
-
-      greedy_2 = Greedy(g, orden_1, color_1);
-      
-      if (!coloreo_prop(g,color_1)){
-        printf("Coloreo invalido en Jedi\n");
-        exit(EXIT_FAILURE);
-      }
-      
-
-      /* Check de que ande todo bien y seteamos el coloreo minimo */
-      
-      if (coloreo_min_imparPar >= greedy_1) coloreo_min_imparPar = greedy_1;
-      else
-      {
-        printf("Se rompe el invariante en imparPar ->%u\n", greedy_1);
-        exit(EXIT_FAILURE);
-      }
-      
-      if (coloreo_min_jedi >= greedy_2) coloreo_min_jedi = greedy_2;
-      else
-      {
-        printf("Se rompe el invariante en jedi -> %u\n", greedy_2);
-        exit(EXIT_FAILURE);
-      }
-
-      if (imparPar == '1') {
-        printf("Error en imparPar\n");
-        exit(EXIT_FAILURE);
-      }
-      
-      if (jedi == '1') {
-        printf("Error en Jedi\n");
-        exit(EXIT_FAILURE);
-      }
- 
+    if (imparPar == '1') {
+      printf("Error en imparPar\n");
+      exit(EXIT_FAILURE);
+    }
+    if (jedi == '1') {
+      printf("Error en Jedi\n");
+      exit(EXIT_FAILURE);
     }
   }
+    
 
   u32 coloreo_min = coloreo_min_imparPar < coloreo_min_jedi ? coloreo_min_imparPar : coloreo_min_jedi;
 
