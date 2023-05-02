@@ -2,8 +2,9 @@
 #define EstructuraGrafos3_H
 
 #include <stdint.h>
-#include <assert.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
 
 /* (2 ** 32) - 1*/
 #define ERROR 4294967295

@@ -1,7 +1,6 @@
 #ifndef _ABB_H
 #define _ABB_H
 
-#include <stdbool.h>
 #include "EstructuraGrafo23.h"
 
 typedef struct _s_abb * abb;

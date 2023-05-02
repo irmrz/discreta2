@@ -1,7 +1,7 @@
 #include "APIG23.h"
 #include "EstructuraGrafo23.h"
 #include "abb.h"
-#include <stdio.h>
+
 
 
 
@@ -9,10 +9,6 @@
 
 static void add_neighbour(Grafo g, u32 vertice_index, u32 vecino_index){   
     
-    assert(g != NULL);
-    if(vertice_index > g->n_vertices){
-        assert(vertice_index != vertice_index);
-    }
 
     u32 grado = g->lista_vert[vertice_index].grado; // Numero de vecinos que tiene el vertice "vertice_index"
     u32 capacity = g->lista_vert[vertice_index].capacity;
@@ -151,29 +147,24 @@ void DestruirGrafo(Grafo G){
 
 
 u32 NumeroDeVertices(Grafo G) {
-    assert(G != NULL);
     return G->n_vertices;
 }
 
 u32 NumeroDeLados(Grafo G) {
-    assert(G != NULL);
     return G->m_lados;
 }
 
 u32 Delta(Grafo G) {
-    assert(G != NULL);
     return G->delta;
 }
 
 u32 Nombre(u32 i,Grafo G) {
-    assert(G != NULL);
-    assert(i < G->n_vertices);
+
     return G->lista_vert[i].nombre;
 }
 
 u32 Grado(u32 i,Grafo G) {
-    assert(G != NULL);
-    assert(i < G->n_vertices);
+
     return G->lista_vert[i].grado;
 }
 

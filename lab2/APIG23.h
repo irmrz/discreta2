@@ -2,9 +2,6 @@
 #define APIG23_H
 
 
-#include <stdio.h>
-#include <stdlib.h>
-
 //el .h de abajo debe tener definida GrafoSt y u32.
 #include "EstructuraGrafo23.h"
 

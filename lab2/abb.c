@@ -1,7 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
-#include <assert.h>
+
 #include "abb.h"
 #include "EstructuraGrafo23.h"
 
@@ -336,7 +333,6 @@ abb abb_destroy(abb tree) {
     free(tree);
     tree=NULL;
 
-    assert(tree == NULL);
     return tree;
 }
 
@@ -374,7 +370,6 @@ u32 abb_set_index_and_load(abb tree,vertice array,u32 last_ad){
 
 
 void load_pre_ord_vert(abb tree,vertice array){
-    assert(tree != NULL && array != NULL);
 
     array[tree->elem.index] = make_vert(tree->elem.index,tree->elem.name);
 

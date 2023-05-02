@@ -1,7 +1,4 @@
 #include "APIParte2.h"
-#include "EstructuraGrafo23.h"
-#include <assert.h>
-#include <stdbool.h>
 
 
 /* Estructura de pares que tendra el arreglo auxiliar */
@@ -74,7 +71,6 @@ a > b -> -1
  en Greedy en el lugar i.
 */
 u32 Greedy(Grafo G,u32* Orden,u32* Color){
-    assert(((G!=NULL) && (Orden!=NULL) && (Color!=NULL)));
 
     u32 colors_count = 0;    /* Cantidad de colores total que usa el grafo */
     u32 n = NumeroDeVertices(G);
@@ -139,7 +135,6 @@ u32 Greedy(Grafo G,u32* Orden,u32* Color){
 Es el nuevo orden a colorear
 n es el numero de vertices = largo de los arrays*/
 char OrdenImparPar(u32 n,u32* Orden,u32* Color){
-    assert((Orden!=NULL) && (Color!=NULL));
 
     tupla *aux_array = calloc(n,sizeof(tupla));
     
