@@ -1,4 +1,5 @@
 #include "APIParte2.h"
+#define ERROR_2 4294967295
 
 
 /* Estructura de pares que tendra el arreglo auxiliar */
@@ -48,9 +49,11 @@ static int cmp_impar_par(const void *_a, const void *_b){
     }
     else {
 
-        if (a <= b) return 1;
+        if (a < b) return 1;
     
         if (a > b) return -1;
+
+        return 0;
     }
 
     printf("Error en cmp_par\n");
@@ -96,8 +99,8 @@ u32 Greedy(Grafo G,u32* Orden,u32* Color){
 
         for (u32 j = 0; j < vecinos_count; j++){
             vecino = IndiceVecino(j,vert,G);
-            if (vecino == ERROR){
-                return ERROR;
+            if (vecino == ERROR_2){
+                return ERROR_2;
             }
             if (coloreado[vecino] != 0){
                 used_colors[Color[vecino]] = 1;
@@ -149,12 +152,6 @@ char OrdenImparPar(u32 n,u32* Orden,u32* Color){
 
     qsort(aux_array,n,sizeof(tupla),cmp_impar_par);
 
-    /*
-    for(u32 i = 0; i < n; i++){
-        printf("Indice: %u Color: %u\n",aux_array[i].indice,aux_array[i].color);
-    }
-    */
-
 
     for (u32 i = 0; i < n; i++){
         Orden[i] = aux_array[i].indice;
@@ -193,7 +190,7 @@ char OrdenJedi(Grafo G,u32* Orden,u32* Color){
     for ( u32 i = 0; i < n; i++){
         aux_array[i].indice = i;
         aux_array[i].color = Color[i];
-        aux_array[i].jedi = ERROR;
+        aux_array[i].jedi = ERROR_2;
     
         jedi_result[Color[i]] += Grado(i,G);
     
@@ -202,7 +199,6 @@ char OrdenJedi(Grafo G,u32* Orden,u32* Color){
         }        
     }
     amount_colors++;
-    //printf("Cantidad de colores: %u\n",amount_colors); 
 
     for (u32 i = 0; i < amount_colors; i++){        
         jedi_result[i] = jedi_result[i] * i;
