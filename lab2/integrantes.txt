@@ -1,0 +1,16 @@
+Grupo: 
+    todo_por_dos_pesos
+
+Integrantes:
+    -	Nombre: Tomas Alejandro Hubmann
+    	Mail: tomas.hubmann@mi.unc.edu.ar
+    	DNI: 44244482
+    	
+    -	Nombre: Ignacio Tomas Ramirez
+    	Mail: ignaciotramirez@mi.unc.edu.ar
+    	DNI: 44432780
+    	
+    -	Nombre: Marcos Strasorier
+    	Mail: marcos.strasorier@mi.unc.edu.ar
+    	DNI: 43412827
+    

@@ -142,7 +142,7 @@ char OrdenImparPar(u32 n,u32* Orden,u32* Color){
     tupla *aux_array = calloc(n,sizeof(tupla));
     
     if (aux_array == NULL){
-        return '1';
+        return (char)1;
     }
 
     for (u32 i = 0; i < n; i++){
@@ -158,7 +158,7 @@ char OrdenImparPar(u32 n,u32* Orden,u32* Color){
     }
 
     free(aux_array);
-    return '0';
+    return (char)0;
 }
 /*
 crear el arreglo auxiliar
@@ -177,14 +177,14 @@ char OrdenJedi(Grafo G,u32* Orden,u32* Color){
     u32 amount_colors = 0;
     
     if(aux_array == NULL){
-        return '1';
+        return (char)1;
     }
 
     //arreglo jedi_result largo r = numero de colores
     jedi_result = calloc(n,sizeof(u32));
     
     if (jedi_result == NULL){
-        return '1';
+        return (char)1;
     }
 
     for ( u32 i = 0; i < n; i++){
@@ -217,7 +217,7 @@ char OrdenJedi(Grafo G,u32* Orden,u32* Color){
     free(aux_array);
     free(jedi_result);
 
-    return '0';    
+    return (char)0;    
 
 }
 

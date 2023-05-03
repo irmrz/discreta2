@@ -1,11 +1,21 @@
 
+#include <time.h>
+
 #include "APIParte2.h"
+#include "testing.h"
 
 int main() {
-  
+  /* Seteamos varios temporizadores */
+  clock_t t1;
+  t1 = clock();
+
+  printf("Empieza la ejecucion: %fs\n", ((double)(t1)) / CLOCKS_PER_SEC);
   Grafo g = ConstruirGrafo();
+  printf("\n");
+  printf("Grafo cargado: %fs\n", ((double)(clock() - t1) / CLOCKS_PER_SEC));
 
   u32 n = NumeroDeVertices(g);
+  u32 cota = Delta(g);
 
   u32 *orden_1 = malloc(sizeof(u32) * n);
   u32 *orden_2 = malloc(sizeof(u32) * n);
@@ -21,7 +31,9 @@ int main() {
     orden_2[i] = orden_1[i];
     color_2[i] = color_1[i];
   }
-  
+  printf("\n");
+  printf("Primer coloreo: %u\tDelta: %u\n", primer_coloreo, cota);
+
   u32 coloreo_min_imparPar = primer_coloreo;
   u32 coloreo_min_jedi = primer_coloreo;
 
@@ -30,7 +42,11 @@ int main() {
   char imparPar;
   char jedi;
 
+  t1 = clock();
+  printf("\n");
+  printf("Antes del bucle: %fs\n", ((double)(t1)) / CLOCKS_PER_SEC);
 
+  t1 = clock();
   for (size_t i = 0; i < 500; i++) {
     if (i % 16 == 0) {
       /*Swap de mins*/
@@ -50,9 +66,35 @@ int main() {
     }
 
     imparPar = OrdenImparPar(n, orden_1, color_1);
+
+    if (!ordenIP(g, orden_1, color_1)) {
+      printf("Orden invalido en imparPar\n");
+      exit(EXIT_FAILURE);
+    }
+
     greedy_1 = Greedy(g, orden_1, color_1);
+
+    /* Checkeamos que los coloreos sean correctos*/
+    if (!coloreo_prop(g, color_1)) {
+      printf("Coloreo invalido en imparPar\n");
+      exit(EXIT_FAILURE);
+    }
+
     jedi = OrdenJedi(g, orden_2, color_2);
+
+    if (!ordenJ(g, orden_2, color_2)) {
+      printf("Orden invalido en Jedi\n");
+      exit(EXIT_FAILURE);
+    }
+
     greedy_2 = Greedy(g, orden_2, color_2);
+
+    /* Checkeamos que los coloreos sean correctos*/
+
+    if (!coloreo_prop(g, color_2)) {
+      printf("Coloreo invalido en Jedi\n");
+      exit(EXIT_FAILURE);
+    }
 
     /* Check de que ande todo bien y seteamos el coloreo minimo */
 
@@ -86,11 +128,16 @@ int main() {
                         ? coloreo_min_imparPar
                         : coloreo_min_jedi;
 
-  
+  printf("\n");
+  printf("Bucle finalizado: %fm\n",
+         (((double)(clock() - t1) / CLOCKS_PER_SEC)) / 60);
+  printf("\n");
+
+  printf("\n");
   printf("Coloreo minimo imparPar: %u\n", coloreo_min_imparPar);
   printf("Coloreo minimo Jedi: %u\n", coloreo_min_jedi);
   printf("Coloreo minimo: %u\n", coloreo_min);
-  
+  printf("\n");
 
   free(orden_1);
   free(orden_2);
